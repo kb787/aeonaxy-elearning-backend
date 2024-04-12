@@ -1,26 +1,50 @@
-const postgres = require("postgres");
-const dotenv = require("dotenv");
-const colors = require("colors");
-dotenv.config();
+const { Pool } = require("pg");
+require("dotenv").config();
+let {
+  pg_host,
+  pg_database,
+  pg_username,
+  pg_password,
+  pg_port,
+  postgresql_connection_string,
+} = process.env;
 
-let { pg_host, pg_database, pg_username, pg_password, pg_port } = process.env;
-
-const postgreSQLConnection = async () => {
+async function postgreSQLConnection() {
+  const pool = new Pool({
+    host: pg_host,
+    database: pg_database,
+    username: pg_username,
+    password: pg_password,
+    port: pg_port,
+  });
+  const client = await pool.connect();
   try {
-    const pgConfig = postgres({
-      host: pg_host,
-      database: pg_database,
-      username: pg_username,
-      password: pg_password,
-      port: pg_port,
-      ssl: "require",
-    });
-    const result = await pgConfig`select version()`;
+    const result = await client.query("SELECT version()");
     console.log(
-      `Connection established with postresql database of version ${result[0]}`
+      `Successfully connected to postgresql database of version ${result.rows[0]}`
         .bgGreen
     );
   } catch (error) {
-    console.log(`Unable to connect due to error ${error}`.bgRed);
+    console.log(`Unable to connect due to error ${error}`);
+  } finally {
+    client.release();
   }
+}
+
+const neonDatabaseConnection = async () => {
+  const pool = new Pool({
+    connectionString: postgresql_connection_string,
+  });
+  const client = await pool.connect();
+  try {
+    console.log(`Successfully connected to neon-postgresql database`.bgBlue);
+  } catch (error) {
+    console.log(`Unable to connect due to error ${error}`.bgRed);
+  } finally {
+    client.release();
+  }
+};
+module.exports = {
+  neonDatabaseConnection: neonDatabaseConnection,
+  postgreSQLConnection: postgreSQLConnection,
 };

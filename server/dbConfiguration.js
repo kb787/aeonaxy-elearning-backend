@@ -4,7 +4,7 @@ const colors = require("colors");
 dotenv.config();
 const mongodb_connection_string = process.env.mongodb_connection_string;
 
-const databaseConnection = async () => {
+const mongodbDatabaseConnection = async () => {
   try {
     await mongoose.connect(mongodb_connection_string);
     console.log(`Successfully connected to mongodb database`.bgGreen);
@@ -13,4 +13,4 @@ const databaseConnection = async () => {
   }
 };
 
-module.exports = databaseConnection;
+module.exports = mongodbDatabaseConnection;

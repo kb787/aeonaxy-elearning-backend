@@ -3,13 +3,25 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const dotenv = require("dotenv");
-const databaseConnection = require("./dbConfiguration");
+const {
+  postgreSQLConnection,
+  neonDatabaseConnection,
+} = require("./postgresqlConfiguration");
 const { signupRouter, signinRouter } = require("./auth-controller");
 const { emailSendingRouter, passwordChangeRouter } = require("./email-handler");
+const {
+  profilePostRouter,
+  profileGetIndividualRouter,
+  profileGetAllRouter,
+  profileDeleteRouter,
+  profileUpdateRouter,
+} = require("./profile-controllers");
+const mongodbDatabaseConnection = require("./dbConfiguration");
 const base_endpoint = process.env.base_api_endpoint;
 
 dotenv.config();
-databaseConnection();
+mongodbDatabaseConnection();
+neonDatabaseConnection();
 app.use(express.json());
 app.use(base_endpoint, signupRouter);
 app.use(base_endpoint, signinRouter);
