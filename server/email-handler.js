@@ -71,7 +71,7 @@ const handleEmailSending = async (req, res) => {
     }
     const passcodeGenerate = Math.floor(Math.random() * 10000 + 1);
     const otpExpiryTime = new Date().getTime() + 300 * 1000;
-    await authModel.create({
+    await verificationModel.create({
       recieverEmail: recieverEmail,
       verificationCode: passcodeGenerate,
       expiresIn: otpExpiryTime,

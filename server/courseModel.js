@@ -19,42 +19,36 @@ const sequelize = new Sequelize(
     dialect: "postgres",
   }
 );
-// sequelize.sync();
-let userProfileModel;
-if (sequelize.models.profiles) {
-  userProfileModel = sequelize.models.profiles;
+
+let courseModel;
+if (sequelize.models.courses) {
+  courseModel = sequelize.models.courses;
 }
 
-userProfileModel = sequelize.define("profiles", {
-  profile_id: {
+courseModel = sequelize.define("courses", {
+  course_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  firstname: {
-    type: DataTypes.STRING,
+  enrolled_users_id: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
   },
-  lastname: {
-    type: DataTypes.STRING,
-  },
-  emailaddress: {
-    type: DataTypes.STRING,
-  },
-  userage: {
+  users_count: {
     type: DataTypes.INTEGER,
   },
-  profileimageurl: {
+  coursename: {
+    type: DataTypes.STRING,
+  },
+  coursecategory: {
+    type: DataTypes.STRING,
+  },
+  courselevel: {
+    type: DataTypes.ENUM("beginner", "intermediate", "advanced"),
+  },
+  coursevideolink: {
     type: DataTypes.STRING,
   },
 });
 
-// (async () => {
-//   try {
-//     await sequelize.sync();
-//     console.log("Database synchronized successfully!");
-//   } catch (error) {
-//     console.error("Error synchronizing database:", error);
-//   }
-// })();
-
-module.exports = userProfileModel;
+module.exports = courseModel;

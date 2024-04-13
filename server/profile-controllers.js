@@ -27,9 +27,9 @@ const handleUserProfileCreation = async (req, res) => {
 };
 
 const handleUserProfileDeletion = async (req, res) => {
-  const profile_id = req.params;
+  const { profile_id } = req.params;
   try {
-    const expectedUser = await userProfileModel.findByPk({ profile_id });
+    const expectedUser = await userProfileModel.findByPk(profile_id);
     if (!expectedUser) {
       return res.json({ message: "Unable to find such user", status: 404 });
     } else {
@@ -45,9 +45,9 @@ const handleUserProfileDeletion = async (req, res) => {
 };
 
 const handleFindUserProfileById = async (req, res) => {
-  const profile_id = req.params;
+  const { profile_id } = req.params;
   try {
-    const expectedUser = await userProfileModel.findByPk({ profile_id });
+    const expectedUser = await userProfileModel.findByPk(profile_id);
     if (!expectedUser) {
       return res.json({ message: "No such profile exists", status: 404 });
     } else {
@@ -78,11 +78,11 @@ const handleFindAllUsers = async (req, res) => {
 };
 
 const handleUpdateUserProfileById = async (req, res) => {
-  const profile_id = req.params;
+  const { profile_id } = req.params;
   const { firstname, lastname, emailaddress, userage, profileimageurl } =
     req.body;
   try {
-    const requiredUser = await userProfileModel.findByPk({ profile_id });
+    const requiredUser = await userProfileModel.findByPk(profile_id);
     if (!requiredUser) {
       return res.json({ message: "No such profile found", status: 404 });
     } else {
@@ -108,13 +108,12 @@ const handleUpdateUserProfileById = async (req, res) => {
 };
 
 const express = require("express");
-const {
-  profilePostRouter,
-  profileGetIndividualRouter,
-  profileGetAllRouter,
-  profileDeleteRouter,
-  profileUpdateRouter,
-} = express.Router();
+const profilePostRouter = express.Router();
+const profileGetIndividualRouter = express.Router();
+const profileGetAllRouter = express.Router();
+const profileDeleteRouter = express.Router();
+const profileUpdateRouter = express.Router();
+
 profilePostRouter.post(
   "/profiles/create-user-profile",
   handleUserProfileCreation

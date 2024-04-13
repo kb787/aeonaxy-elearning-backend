@@ -16,6 +16,13 @@ const {
   profileDeleteRouter,
   profileUpdateRouter,
 } = require("./profile-controllers");
+const {
+  userEnrollmentRouter,
+  getAllCourseRouter,
+  postNewCourseRouter,
+  deleteCourseRouter,
+  getFilteredCourseRouter,
+} = require("./course-controller");
 const mongodbDatabaseConnection = require("./dbConfiguration");
 const base_endpoint = process.env.base_api_endpoint;
 
@@ -23,10 +30,21 @@ dotenv.config();
 mongodbDatabaseConnection();
 neonDatabaseConnection();
 app.use(express.json());
+
 app.use(base_endpoint, signupRouter);
 app.use(base_endpoint, signinRouter);
 app.use(base_endpoint, emailSendingRouter);
 app.use(base_endpoint, passwordChangeRouter);
+app.use(base_endpoint, profilePostRouter);
+app.use(base_endpoint, profileGetIndividualRouter);
+app.use(base_endpoint, profileGetAllRouter);
+app.use(base_endpoint, profileUpdateRouter);
+app.use(base_endpoint, profileDeleteRouter);
+app.use(base_endpoint, userEnrollmentRouter);
+app.use(base_endpoint, getAllCourseRouter);
+app.use(base_endpoint, postNewCourseRouter);
+app.use(base_endpoint, deleteCourseRouter);
+app.use(base_endpoint, getFilteredCourseRouter);
 
 const server_port_no = process.env.server_port_no;
 app.get("/", (req, res) => {
