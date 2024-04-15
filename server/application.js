@@ -7,23 +7,26 @@ const {
   postgreSQLConnection,
   neonDatabaseConnection,
 } = require("./postgresqlConfiguration");
-const { signupRouter, signinRouter } = require("./auth-controller");
-const { emailSendingRouter, passwordChangeRouter } = require("./email-handler");
+const { signupRouter, signinRouter } = require("./controllers/auth-controller");
+const {
+  emailSendingRouter,
+  passwordChangeRouter,
+} = require("./helpers/email-handler");
 const {
   profilePostRouter,
   profileGetIndividualRouter,
   profileGetAllRouter,
   profileDeleteRouter,
   profileUpdateRouter,
-} = require("./profile-controllers");
+} = require("./controllers/profile-controllers");
 const {
   userEnrollmentRouter,
   getAllCourseRouter,
   postNewCourseRouter,
   deleteCourseRouter,
   getFilteredCourseRouter,
-} = require("./course-controller");
-const mongodbDatabaseConnection = require("./dbConfiguration");
+} = require("./controllers/course-controller");
+const mongodbDatabaseConnection = require("./config/dbConfiguration");
 const base_endpoint = process.env.base_api_endpoint;
 
 dotenv.config();

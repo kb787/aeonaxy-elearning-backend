@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const authModel = require("./auth-model");
+const authModel = require("../mongodb-models/auth-model");
 
 const admin_email = process.env.admin_email;
 const admin_password = process.env.admin_password;

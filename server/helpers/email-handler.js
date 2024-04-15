@@ -1,7 +1,7 @@
 const { Resend } = require("resend");
 const dotenv = require("dotenv");
-const verificationModel = require("./verification-model");
-const authModel = require("./auth-model");
+const verificationModel = require("../mongodb-models/verification-model");
+const authModel = require("../mongodb-models/auth-model");
 
 dotenv.config();
 

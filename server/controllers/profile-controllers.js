@@ -1,5 +1,5 @@
-const userProfileModel = require("./models/userprofile");
-const handleValidateAdmin = require("./super-user-validation");
+const userProfileModel = require("../models/userprofile");
+const handleValidateAdmin = require("../helpers/super-user-validation");
 
 const handleUserProfileCreation = async (req, res) => {
   const { firstname, lastname, emailaddress, userage, profileimageurl } =

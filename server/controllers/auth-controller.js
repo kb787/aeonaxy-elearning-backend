@@ -1,6 +1,6 @@
-const authModel = require("./auth-model");
+const authModel = require("../mongodb-models/auth-model");
 const jwt = require("jsonwebtoken");
-const { handleCreateCookie } = require("./cookie-handler");
+const { handleCreateCookie } = require("../helpers/cookie-handler");
 const dotenv = require("dotenv");
 const bcryptjs = require("bcryptjs");
 dotenv.config();

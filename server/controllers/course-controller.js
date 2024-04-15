@@ -1,6 +1,6 @@
-const courseModel = require("./models/coursemodel");
-const handlePagination = require("./pagination-handler");
-const handleValidateAdmin = require("./super-user-validation");
+const courseModel = require("../models/coursemodel");
+const handlePagination = require("../helpers/pagination-handler");
+const handleValidateAdmin = require("../helpers/super-user-validation");
 
 const handleUserEnrollment = async (req, res) => {
   try {
