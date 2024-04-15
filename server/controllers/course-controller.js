@@ -1,12 +1,14 @@
-const courseModel = require("../models/coursemodel");
+const courseModel = require("../models/user_courses");
 const handlePagination = require("../helpers/pagination-handler");
 const handleValidateAdmin = require("../helpers/super-user-validation");
 
 const handleUserEnrollment = async (req, res) => {
   try {
-    const { profile_id } = req.params;
-    const coursesObject = await courseModel.create();
-    coursesObject.enrolled_users_id.push(profile_id);
+    const { id } = req.params;
+    const coursesObject = await courseModel.build({
+      enrolled_users_id: [],
+    });
+    coursesObject.enrolled_users_id.push(id);
     coursesObject.users_count = courseModel.users_count + 1;
     await coursesObject.save();
     return res.json({ message: "Successfully enrolled the user", status: 201 });
@@ -18,7 +20,7 @@ const handleUserEnrollment = async (req, res) => {
 const handleCreateNewCourse = async (req, res) => {
   const { coursename, coursecategory, courselevel, coursevideolink } = req.body;
   try {
-    await userProfileModel.build({
+    await courseModel.create({
       coursename: coursename,
       coursecategory: coursecategory,
       courselevel: courselevel,
@@ -39,14 +41,14 @@ const handleCreateNewCourse = async (req, res) => {
 };
 
 const handleCourseDeletion = async (req, res) => {
-  const { course_id } = req.params;
+  const { id } = req.params;
   try {
-    const expectedCourse = await courseModel.findByPk(course_id);
+    const expectedCourse = await courseModel.findByPk(id);
     if (!expectedCourse) {
       return res.json({ message: "Unable to find such course", status: 404 });
     } else {
       await expectedCourse.destroy();
-      return res.json({ message: "User deleted successfully", status: 201 });
+      return res.json({ message: "Course deleted successfully", status: 201 });
     }
   } catch (error) {
     return res.json({
@@ -57,20 +59,20 @@ const handleCourseDeletion = async (req, res) => {
 };
 
 const handleUpdateCourseById = async (req, res) => {
-  const { course_id } = req.params;
+  const { id } = req.params;
   const { coursename, coursecategory, courselevel, coursevideolink } = req.body;
   try {
-    const requiredCourse = await courseModel.findByPk(course_id);
+    const requiredCourse = await courseModel.findByPk(id);
     if (!requiredCourse) {
       return res.json({ message: "No such course found", status: 404 });
     } else {
-      courseModel.set({
+      requiredCourse.update({
         coursename: coursename,
         coursecategory: coursecategory,
         courselevel: courselevel,
         coursevideolink: coursevideolink,
       });
-      await courseModel.save();
+      await requiredCourse.save();
       return res.json({
         message: "Successfully updated the course details",
         status: 201,
@@ -180,4 +182,5 @@ module.exports = {
   postNewCourseRouter: postNewCourseRouter,
   deleteCourseRouter: deleteCourseRouter,
   getFilteredCourseRouter: getFilteredCourseRouter,
+  updateCourseRouter: updateCourseRouter,
 };

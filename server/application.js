@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 const {
   postgreSQLConnection,
   neonDatabaseConnection,
-} = require("./postgresqlConfiguration");
+} = require("./config/postgresqlConfiguration");
 const { signupRouter, signinRouter } = require("./controllers/auth-controller");
 const {
   emailSendingRouter,
@@ -25,6 +25,7 @@ const {
   postNewCourseRouter,
   deleteCourseRouter,
   getFilteredCourseRouter,
+  updateCourseRouter,
 } = require("./controllers/course-controller");
 const mongodbDatabaseConnection = require("./config/dbConfiguration");
 const base_endpoint = process.env.base_api_endpoint;
@@ -49,6 +50,7 @@ app.use(base_endpoint, getAllCourseRouter);
 app.use(base_endpoint, postNewCourseRouter);
 app.use(base_endpoint, deleteCourseRouter);
 app.use(base_endpoint, getFilteredCourseRouter);
+app.use(base_endpoint, updateCourseRouter);
 
 const server_port_no = process.env.server_port_no;
 app.get("/", (req, res) => {

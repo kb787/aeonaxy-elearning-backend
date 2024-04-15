@@ -2,8 +2,8 @@
 const { Model, Sequelize } = require("sequelize");
 const sequelize = require("../config/database");
 
-let courseModel = sequelize.define(
-  "courseModels",
+let userProfileModel = sequelize.define(
+  "user_profiles",
   {
     id: {
       allowNull: false,
@@ -11,37 +11,32 @@ let courseModel = sequelize.define(
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
-    enrolled_users_id: {
-      type: Sequelize.ARRAY(Sequelize.INTEGER),
+    firstname: {
+      type: Sequelize.STRING,
     },
-    users_count: {
+    lastname: {
+      type: Sequelize.STRING,
+    },
+    emailaddress: {
+      type: Sequelize.STRING,
+    },
+    userage: {
       type: Sequelize.INTEGER,
     },
-    coursename: {
-      type: Sequelize.STRING,
-    },
-    coursecategory: {
-      type: Sequelize.STRING,
-    },
-    courselevel: {
-      type: Sequelize.ENUM("beginner", "intermediate", "advanced"),
-    },
-    coursevideolink: {
+    profileimageurl: {
       type: Sequelize.STRING,
     },
     createdAt: {
-      allowNull: false,
       type: Sequelize.DATE,
     },
     updatedAt: {
-      allowNull: false,
       type: Sequelize.DATE,
     },
   },
   {
     freezeTableName: true,
-    modelName: "courseModels",
+    tableName: "user_profiles",
   }
 );
 
-module.exports = courseModel;
+module.exports = userProfileModel;

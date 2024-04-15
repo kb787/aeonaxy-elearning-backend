@@ -1,11 +1,11 @@
-const userProfileModel = require("../models/userprofile");
+const userProfileModel = require("../models/user_profiles");
 const handleValidateAdmin = require("../helpers/super-user-validation");
 
 const handleUserProfileCreation = async (req, res) => {
   const { firstname, lastname, emailaddress, userage, profileimageurl } =
     req.body;
   try {
-    await userProfileModel.build({
+    await userProfileModel.create({
       firstname: firstname,
       lastname: lastname,
       emailaddress: emailaddress,
@@ -27,9 +27,9 @@ const handleUserProfileCreation = async (req, res) => {
 };
 
 const handleUserProfileDeletion = async (req, res) => {
-  const { profile_id } = req.params;
+  const { id } = req.params;
   try {
-    const expectedUser = await userProfileModel.findByPk(profile_id);
+    const expectedUser = await userProfileModel.findByPk(id);
     if (!expectedUser) {
       return res.json({ message: "Unable to find such user", status: 404 });
     } else {
@@ -45,9 +45,9 @@ const handleUserProfileDeletion = async (req, res) => {
 };
 
 const handleFindUserProfileById = async (req, res) => {
-  const { profile_id } = req.params;
+  const { id } = req.params;
   try {
-    const expectedUser = await userProfileModel.findByPk(profile_id);
+    const expectedUser = await userProfileModel.findByPk(id);
     if (!expectedUser) {
       return res.json({ message: "No such profile exists", status: 404 });
     } else {
@@ -78,22 +78,22 @@ const handleFindAllUsers = async (req, res) => {
 };
 
 const handleUpdateUserProfileById = async (req, res) => {
-  const { profile_id } = req.params;
+  const { id } = req.params;
   const { firstname, lastname, emailaddress, userage, profileimageurl } =
     req.body;
   try {
-    const requiredUser = await userProfileModel.findByPk(profile_id);
+    const requiredUser = await userProfileModel.findByPk(id);
     if (!requiredUser) {
       return res.json({ message: "No such profile found", status: 404 });
     } else {
-      userProfileModel.set({
+      requiredUser.update({
         firstname: firstname,
         lastname: lastname,
         emailaddress: emailaddress,
         userage: userage,
         profileimageurl: profileimageurl,
       });
-      await userProfileModel.save();
+      await requiredUser.save();
       return res.json({
         message: "Successfully updated the user profile details",
         status: 201,
