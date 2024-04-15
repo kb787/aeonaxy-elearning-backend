@@ -1,4 +1,4 @@
-const userProfileModel = require("./userProfileModel");
+const userProfileModel = require("./models/userprofile");
 const handleValidateAdmin = require("./super-user-validation");
 
 const handleUserProfileCreation = async (req, res) => {

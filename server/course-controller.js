@@ -1,13 +1,14 @@
-const courseModel = require("./courseModel");
+const courseModel = require("./models/coursemodel");
 const handlePagination = require("./pagination-handler");
 const handleValidateAdmin = require("./super-user-validation");
 
 const handleUserEnrollment = async (req, res) => {
   try {
     const { profile_id } = req.params;
-    courseModel.enrolled_users_id.push(profile_id);
-    courseModel.users_count = courseModel.users_count + 1;
-    await courseModel.save();
+    const coursesObject = await courseModel.create();
+    coursesObject.enrolled_users_id.push(profile_id);
+    coursesObject.users_count = courseModel.users_count + 1;
+    await coursesObject.save();
     return res.json({ message: "Successfully enrolled the user", status: 201 });
   } catch (error) {
     console.log(`Unable to process your request due to error ${error}`);

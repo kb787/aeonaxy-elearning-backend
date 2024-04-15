@@ -28,6 +28,7 @@ const base_endpoint = process.env.base_api_endpoint;
 
 dotenv.config();
 mongodbDatabaseConnection();
+// postgreSQLConnection();
 neonDatabaseConnection();
 app.use(express.json());
 
