@@ -1,33 +1,18 @@
-const handlePagination = (start, end, data) => {
-  const results = {};
-  if (start === 0) {
-    results.previous = {
-      page: null,
-      limit: limit,
-    };
-    results.next = {
-      page: limit,
-      limit: limit,
-    };
+const handlePagination = (start, end, data, page, limit) => {
+  let results = {};
+  const maxPage = Math.ceil(data.length / limit);
+
+  if (page === 0) {
+    results.previous = null;
+    results.next = page + 1;
+  } else if (page === maxPage) {
+    results.previous = page - 1;
+    results.next = null;
+  } else {
+    results.previous = page - 1;
+    results.next = page + 1;
   }
-  if (start === limit) {
-    results.previous = {
-      page: limit,
-      limit: limit,
-    };
-    results.next = {
-      page: null,
-      limit: limit,
-    };
-  }
-  results.previous = {
-    page: page - 1,
-    limit: limit,
-  };
-  results.next = {
-    page: page + 1,
-    limit: limit,
-  };
+
   const paginatedResponse = data.slice(start, end);
   results.results = paginatedResponse;
   return results;

@@ -92,11 +92,17 @@ const handleFindAllCourses = async (req, res) => {
     if (!searchResponse) {
       return res.json({ message: "No such courses found", status: 404 });
     } else {
-      const page = parseInt(req.query.page);
-      const limit = parseInt(req.query.limit);
-      const startIndex = page - 1;
-      const endIndex = limit - 1;
-      const response = handlePagination(startIndex, endIndex, searchResponse);
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 5;
+      const startIndex = (page - 1) * limit;
+      const endIndex = startIndex + limit;
+      const response = handlePagination(
+        startIndex,
+        endIndex,
+        searchResponse,
+        page,
+        limit
+      );
       return res.json(response);
     }
   } catch (error) {
