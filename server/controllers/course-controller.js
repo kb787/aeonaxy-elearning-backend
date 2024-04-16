@@ -116,7 +116,7 @@ const handleFindAllCourses = async (req, res) => {
 const handleFindFilteredCourse = async (req, res) => {
   const { coursename, coursecategory, courselevel, users_count } = req.query;
   try {
-    const generalData = await courseModel.find();
+    const generalData = await courseModel.findAll();
     let filteredData;
     if (coursename) {
       filteredData = generalData.filter(
